@@ -1,3 +1,4 @@
+use clipboard_win::{formats, set_clipboard};
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{self, prelude::*, BufReader};
@@ -63,13 +64,23 @@ fn main() -> io::Result<()> {
                     }
                 }
                 State::Yellow => {
-                    for j in 1..val.len() {
+                    let limit = 50;
+                    let mut count = 0;
+                    let mut result: String = String::default();
+                    'out: for j in 1..val.len() {
                         let words = val.get(j).unwrap();
                         for i in 0..words.len() {
-                            print!("{} ", words.get(i).unwrap());
+                            result.push_str(words.get(i).unwrap());
+                            result.push(' ');
+                            count += 1;
+                            if count >= limit {
+                                break 'out;
+                            }
                         }
                     }
-                    println!()
+                    println!("{result}");
+
+                    set_clipboard(formats::Unicode, result).expect("failed to set clipboard");
                 }
             },
             None => println!("---"),
