@@ -52,6 +52,10 @@ fn main() -> io::Result<()> {
                 State::Red => {
                     let pad = 1 + val.len() / 10;
                     let len = val.len();
+
+                    set_clipboard(formats::Unicode, val.get(len - 1).unwrap().get(0).unwrap())
+                        .expect("failed to set clipboard");
+
                     for j in (1..len).rev() {
                         let words = val.get(j).unwrap();
                         if words.len() > 0 {
