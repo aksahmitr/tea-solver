@@ -15,7 +15,7 @@ fn main() -> io::Result<()> {
         _ => State::Red,
     };
 
-    let file = File::open("words.txt")?;
+    let file = File::open("words.txt").expect("could not find words.txt");
     let reader = BufReader::new(file);
 
     let mut data: HashMap<String, Vec<Vec<String>>> = HashMap::new();
@@ -33,7 +33,9 @@ fn main() -> io::Result<()> {
     }
 
     loop {
-        println!("Key: ");
+        print!("Key: ");
+        io::stdout().flush()?;
+
         let mut key = String::new();
         io::stdin()
             .read_line(&mut key)
