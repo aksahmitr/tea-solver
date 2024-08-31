@@ -71,17 +71,15 @@ fn main() -> io::Result<()> {
                 }
                 State::Yellow => {
                     let limit = 2000;
-                    let mut count = 0;
                     let mut result: String = String::default();
                     'out: for j in 1..val.len() {
                         let words = val.get(j).unwrap();
                         for i in 0..words.len() {
-                            if count + j > limit {
+                            if result.len() + j > limit {
                                 break 'out;
                             }
                             result.push_str(words.get(i).unwrap());
                             result.push(' ');
-                            count += j + 1;
                         }
                     }
                     result.pop();
